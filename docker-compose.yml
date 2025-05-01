@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tma-${APP_NAME:-app}
+    restart: unless-stopped
+    networks:
+      - tma_network
+    ports:
+      - "${APP_PORT:-3000}:80"
+    environment:
+      - APP_NAME=${APP_NAME:-app}
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+
+networks:
+  tma_network:
+    name: tma_network
+    external: true
