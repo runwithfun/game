@@ -109,65 +109,175 @@ export class GameEngine {
   private drawStats(ctx: CanvasRenderingContext2D): void {
     ctx.save();
 
-    // Определяем размеры и отступы
-    const cardWidth = 200;
-    const cardHeight = 70;
-    const cardMargin = 10;
-    const cornerRadius = 15;
+    const isMobile = this.canvasWidth < 768; // Считаем устройство мобильным, если ширина меньше 768px
 
-    // Задаем положение первой карточки
-    let cardY = 20;
+    // Определяем размеры и отступы в зависимости от размера экрана
+    const cardMargin = isMobile ? 5 : 10;
+    const cornerRadius = isMobile ? 10 : 15;
 
-    // Отрисовка карточки с дистанцией
-    this.drawStatsCard(
-      ctx,
-      cardMargin,
-      cardY,
-      cardWidth,
-      cardHeight,
-      cornerRadius,
-      '🏃', // Иконка бегущего человека
-      'Distance',
-      `${Math.floor(this.distance)} km`,
-      '#F8F8F8', // Белый фон
-      '#F037A5'  // Фуксия для акцентов
-    );
+    if (isMobile) {
+      // Мобильная версия - карточки горизонтально в верхней части
+      const cardWidth = (this.canvasWidth - cardMargin * 4) / 3; // 3 карточки с отступами
+      const cardHeight = 50;
+      let cardX = cardMargin;
+      const cardY = cardMargin;
 
-    cardY += cardHeight + 10;
+      // Отрисовка карточки с дистанцией
+      this.drawMobileStatsCard(
+        ctx,
+        cardX,
+        cardY,
+        cardWidth,
+        cardHeight,
+        cornerRadius,
+        'Distance',
+        `${Math.floor(this.distance)} km`,
+        '#F8F8F8', // Белый фон
+        '#F037A5'  // Фуксия для акцентов
+      );
 
-    // Отрисовка карточки с монетами
-    this.drawStatsCard(
-      ctx,
-      cardMargin,
-      cardY,
-      cardWidth,
-      cardHeight,
-      cornerRadius,
-      '💰', // Иконка денег
-      'P.R.O. coins',
-      `${this.coins}`,
-      '#F8F8F8',
-      '#E6FE5F'  // Лимонный для акцентов
-    );
+      cardX += cardWidth + cardMargin;
 
-    cardY += cardHeight + 10;
+      // Отрисовка карточки с монетами
+      this.drawMobileStatsCard(
+        ctx,
+        cardX,
+        cardY,
+        cardWidth,
+        cardHeight,
+        cornerRadius,
+        'Coins',
+        `${this.coins}`,
+        '#F8F8F8',
+        '#E6FE5F'  // Лимонный для акцентов
+      );
 
-    // Отрисовка карточки со скоростью
-    this.drawStatsCard(
-      ctx,
-      cardMargin,
-      cardY,
-      cardWidth,
-      cardHeight,
-      cornerRadius,
-      '⚡', // Иконка молнии
-      'Speed',
-      `${this.gameSpeed.toFixed(1)}x`,
-      '#F8F8F8',
-      '#00C2FF'  // Голубой для акцентов
-    );
+      cardX += cardWidth + cardMargin;
+
+      // Отрисовка карточки со скоростью
+      this.drawMobileStatsCard(
+        ctx,
+        cardX,
+        cardY,
+        cardWidth,
+        cardHeight,
+        cornerRadius,
+        'Speed',
+        `${this.gameSpeed.toFixed(1)}x`,
+        '#F8F8F8',
+        '#00C2FF'  // Голубой для акцентов
+      );
+    } else {
+      // Десктопная версия - карточки вертикально сбоку
+      const cardWidth = 200;
+      const cardHeight = 70;
+      let cardY = 20;
+
+      // Отрисовка карточки с дистанцией
+      this.drawStatsCard(
+        ctx,
+        cardMargin,
+        cardY,
+        cardWidth,
+        cardHeight,
+        cornerRadius,
+        '🏃', // Иконка бегущего человека
+        'Distance',
+        `${Math.floor(this.distance)} km`,
+        '#F8F8F8', // Белый фон
+        '#F037A5'  // Фуксия для акцентов
+      );
+
+      cardY += cardHeight + 10;
+
+      // Отрисовка карточки с монетами
+      this.drawStatsCard(
+        ctx,
+        cardMargin,
+        cardY,
+        cardWidth,
+        cardHeight,
+        cornerRadius,
+        '💰', // Иконка денег
+        'P.R.O. coins',
+        `${this.coins}`,
+        '#F8F8F8',
+        '#E6FE5F'  // Лимонный для акцентов
+      );
+
+      cardY += cardHeight + 10;
+
+      // Отрисовка карточки со скоростью
+      this.drawStatsCard(
+        ctx,
+        cardMargin,
+        cardY,
+        cardWidth,
+        cardHeight,
+        cornerRadius,
+        '⚡', // Иконка молнии
+        'Speed',
+        `${this.gameSpeed.toFixed(1)}x`,
+        '#F8F8F8',
+        '#00C2FF'  // Голубой для акцентов
+      );
+    }
 
     ctx.restore();
+  }
+
+  // Метод для рисования компактной карточки статистики для мобильных устройств
+  private drawMobileStatsCard(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    radius: number,
+    label: string,
+    value: string,
+    bgColor: string,
+    accentColor: string
+  ): void {
+    // Рисуем фон карточки с меньшей тенью для мобильных устройств
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+    ctx.shadowBlur = 5;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 3;
+
+    // Рисуем закругленный прямоугольник
+    ctx.fillStyle = bgColor;
+    ctx.beginPath();
+    ctx.moveTo(x + radius, y);
+    ctx.lineTo(x + width - radius, y);
+    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+    ctx.lineTo(x + width, y + height - radius);
+    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+    ctx.lineTo(x + radius, y + height);
+    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+    ctx.lineTo(x, y + radius);
+    ctx.quadraticCurveTo(x, y, x + radius, y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Убираем тень для текста
+    ctx.shadowColor = 'transparent';
+
+    // Рисуем полоску акцентного цвета вверху карточки
+    ctx.fillStyle = accentColor;
+    ctx.fillRect(x + radius, y, width - 2 * radius, 3);
+
+    // Рисуем название показателя
+    ctx.font = '10px Arial';
+    ctx.fillStyle = '#777';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, x + width / 2, y + height * 0.3);
+
+    // Рисуем значение показателя
+    ctx.font = 'bold 16px Arial';
+    ctx.fillStyle = '#333';
+    ctx.fillText(value, x + width / 2, y + height * 0.7);
   }
 
   // Вспомогательный метод для рисования карточки статистики
@@ -232,22 +342,24 @@ export class GameEngine {
   private drawGameOver(ctx: CanvasRenderingContext2D): void {
     ctx.save();
 
+    const isMobile = this.canvasWidth < 768;
+
     // Полупрозрачный фон
     ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
     ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-    // Рисуем карточку результатов
-    const cardWidth = 300;
-    const cardHeight = 350;
+    // Рисуем карточку результатов с адаптацией для мобильных устройств
+    const cardWidth = isMobile ? Math.min(280, this.canvasWidth - 40) : 300;
+    const cardHeight = isMobile ? 320 : 350;
     const cardX = (this.canvasWidth - cardWidth) / 2;
     const cardY = (this.canvasHeight - cardHeight) / 2;
-    const cornerRadius = 20;
+    const cornerRadius = isMobile ? 15 : 20;
 
-    // Рисуем фон карточки с тенью
+    // Уменьшаем тень для мобильных устройств
     ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = isMobile ? 10 : 20;
     ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 10;
+    ctx.shadowOffsetY = isMobile ? 5 : 10;
 
     // Рисуем закругленный прямоугольник
     ctx.fillStyle = '#F8F8F8';
@@ -267,16 +379,16 @@ export class GameEngine {
     // Убираем тень для текста
     ctx.shadowColor = 'transparent';
 
-    // Заголовок
+    // Заголовок (уменьшаем шрифт для мобильной версии)
     ctx.fillStyle = '#F037A5';
-    ctx.font = 'bold 30px Arial';
+    ctx.font = `bold ${isMobile ? 26 : 30}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('GAME OVER', cardX + cardWidth / 2, cardY + 50);
+    ctx.fillText('GAME OVER', cardX + cardWidth / 2, cardY + (isMobile ? 40 : 50));
 
-    // Значок бега
-    ctx.font = '60px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
-    ctx.fillText('🏃', cardX + cardWidth / 2, cardY + 110);
+    // Значок бега (уменьшаем для мобильной версии)
+    ctx.font = `${isMobile ? 50 : 60}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
+    ctx.fillText('🏃', cardX + cardWidth / 2, cardY + (isMobile ? 90 : 110));
 
     // Дата и время
     const now = new Date();
@@ -292,41 +404,41 @@ export class GameEngine {
     });
 
     ctx.fillStyle = '#777';
-    ctx.font = '16px Arial';
-    ctx.fillText(`${dateString} at ${timeString}`, cardX + cardWidth / 2, cardY + 150);
+    ctx.font = `${isMobile ? 14 : 16}px Arial`;
+    ctx.fillText(`${dateString} at ${timeString}`, cardX + cardWidth / 2, cardY + (isMobile ? 130 : 150));
 
     // Линия-разделитель
     ctx.strokeStyle = '#DDD';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(cardX + 40, cardY + 180);
-    ctx.lineTo(cardX + cardWidth - 40, cardY + 180);
+    ctx.moveTo(cardX + 40, cardY + (isMobile ? 160 : 180));
+    ctx.lineTo(cardX + cardWidth - 40, cardY + (isMobile ? 160 : 180));
     ctx.stroke();
 
-    // Статистика
+    // Адаптируем статистику для мобильной версии
     // Дистанция
-    const iconY = cardY + 220;
-    ctx.font = '25px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+    const iconY = cardY + (isMobile ? 200 : 220);
+    ctx.font = `${isMobile ? 22 : 25}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
     ctx.fillStyle = '#F037A5';
     ctx.textAlign = 'left';
     ctx.fillText('🏃', cardX + 50, iconY);
 
     ctx.fillStyle = '#333';
-    ctx.font = 'bold 22px Arial';
+    ctx.font = `bold ${isMobile ? 20 : 22}px Arial`;
     ctx.fillText(`${Math.floor(this.distance)} km`, cardX + 100, iconY);
 
     // Монеты
-    const icon2Y = cardY + 260;
+    const icon2Y = cardY + (isMobile ? 240 : 260);
     ctx.fillStyle = '#E6FE5F';
     ctx.fillText('💰', cardX + 50, icon2Y);
 
     ctx.fillStyle = '#333';
     ctx.fillText(`${this.coins} P.R.O. coins`, cardX + 100, icon2Y);
 
-    // Кнопка "Play Again"
-    const btnY = cardY + 310;
-    const btnWidth = 220;
-    const btnHeight = 50;
+    // Кнопка "Play Again" (уменьшаем для мобильной версии)
+    const btnY = cardY + (isMobile ? 280 : 310);
+    const btnWidth = isMobile ? 180 : 220;
+    const btnHeight = isMobile ? 45 : 50;
     const btnX = cardX + (cardWidth - btnWidth) / 2;
 
     // Рисуем кнопку
@@ -344,9 +456,9 @@ export class GameEngine {
     ctx.closePath();
     ctx.fill();
 
-    // Текст кнопки
+    // Текст кнопки (уменьшаем для мобильной версии)
     ctx.fillStyle = '#FFF';
-    ctx.font = 'bold 20px Arial';
+    ctx.font = `bold ${isMobile ? 18 : 20}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('PLAY AGAIN', btnX + btnWidth / 2, btnY + btnHeight / 2);
