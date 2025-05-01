@@ -8,17 +8,14 @@ export class Player {
   private animationTimer: number;
   private isMoving: boolean;
   private moveDirection: number; // -1: влево, 0: не движется, 1: вправо
-  private lastLane: number;
   private isJumping: boolean;
   private jumpHeight: number;
   private jumpProgress: number;
-  private color: string;
 
   constructor(width: number, height: number) {
     this.width = 40;
     this.height = 60;
     this.lane = 1; // Начинаем в средней дорожке
-    this.lastLane = 1;
     this.animationFrame = 0;
     this.animationTimer = 0;
     this.isMoving = false;
@@ -26,7 +23,6 @@ export class Player {
     this.isJumping = false;
     this.jumpHeight = 100;
     this.jumpProgress = 0;
-    this.color = '#F037A5'; // Fuchsia цвет
 
     // Рассчитываем начальную позицию
     this.x = width / 2;
@@ -36,7 +32,6 @@ export class Player {
   // Перемещение в левую дорожку
   moveLeft(): void {
     if (this.lane > 0) {
-      this.lastLane = this.lane;
       this.lane--;
       this.isMoving = true;
       this.moveDirection = -1;
@@ -46,7 +41,6 @@ export class Player {
   // Перемещение в правую дорожку
   moveRight(): void {
     if (this.lane < 2) {
-      this.lastLane = this.lane;
       this.lane++;
       this.isMoving = true;
       this.moveDirection = 1;

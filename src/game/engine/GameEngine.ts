@@ -114,7 +114,6 @@ export class GameEngine {
     const cardHeight = 70;
     const cardMargin = 10;
     const cornerRadius = 15;
-    const iconSize = 40;
 
     // Задаем положение первой карточки
     let cardY = 20;

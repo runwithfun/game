@@ -26,6 +26,7 @@ export class Obstacle {
 
   constructor(lane: number, y: number, laneWidth: number, type: ObstacleType, speed: number) {
     this.lane = lane;
+    console.log(`Creating obstacle in lane ${this.lane}`);
     this.y = y;
     this.speed = speed;
     this.type = type;
@@ -181,5 +182,9 @@ export class Obstacle {
       this.y - this.height / 2 < playerY &&
       this.y + this.height / 2 > playerY - playerHeight
     );
+  }
+
+  getLane(): number {
+    return this.lane;
   }
 }
