@@ -1,64 +1,45 @@
-<p align="center">
-  <br>
-  <img width="240" src="./src/assets/tapps.png" alt="logo of telegram web apps">
-  <br>
-  <br>
-</p>
-
-# Telegram Mini Apps(TMA) + React + TypeScript + Vite
-
-Vite (which means "fast" in French) is a front-end build tool and development server that aims to provide a faster and leaner development experience for modern web projects. We will utilise Vite to create Telegram Mini App example.
-
-This template provides a minimal setup to get TMA working in Vite with React, TypeScript, HMR and some ESLint rules.
-
-
-
-## 🚀 Deploy
-
-### Deploy to GitHub Pages
-
-Workflow is set up to deploy to GitHub Pages when a push is made to the `main` branch.
-`/.github/workflows/static.yml`
-
-### Run locally
-
-```bash
-# npm
-npm install
-npm run dev --host
-```
-```bash
-# yarn
-yarn
-yarn dev --host
-```
-
-### Docker
-
-Configuration for running multiple applications in one network on a single server
-
-Initial setup (performed once)
-
-```bash
-# Create a common network for all containers
-docker network create tma_network
-# Create .env file for the first application
-cat > .env << EOF
-APP_NAME=app1
-APP_PORT=3001
-EOF
-```
-
-Run container
-
-```bash
-docker-compose up -d
-```
-
-Nginx Proxy configuration on a separate server
-
-
-# Links
-- [Doc](https://docs.ton.org/develop/dapps/twa)
-- [Example TMA](https://t.me/vite_twa_example_bot/app)
-- [Link](https://twa-dev.github.io/vite-boilerplate/)
+P.R.O. - Endless Runner Game
+<div align="center">
+<img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+<img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Telegram">
+<img src="https://img.shields.io/badge/Canvas-333333?style=for-the-badge&logo=html5&logoColor=white" alt="Canvas API">
+</div>
+<div align="center">
+<h3>🏃 A fast-paced endless runner game for Telegram 🏆</h3>
+<a href="https://t.me/P_R_0_1_bot/game">
+<img src="https://img.shields.io/badge/PLAY%20NOW-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Play on Telegram" height="50">
+</a>
+</div>
+📱 Game Overview
+P.R.O. is an addictive endless runner game where you control a character running along three lanes. Dodge obstacles, collect coins, and see how far you can run! The game features an auto-increasing difficulty, stylish fitness-app inspired UI, and is fully optimized for both desktop and mobile play.
+✨ Features
+🎮 Simple tap/click controls to switch lanes
+🏆 Track your distance, coins, and speed
+🚗 Various obstacles to avoid (barriers, bombs, cars, and more!)
+💰 Collect P.R.O. coins to increase your score
+📊 Beautiful fitness-app inspired statistics display
+📱 Fully responsive design for all devices
+🚀 Progressive difficulty that increases with gameplay time
+🎯 How to Play
+Tap left side of the screen to move left
+Tap right side of the screen to move right
+Avoid obstacles like 🚧, 🥅, 🚗, 💣, and 🛒
+Collect golden P.R.O. coins to increase your score
+See how far you can run!
+🌟 Play Now on Telegram
+The game is available as a Telegram Web App. You can play it by clicking the button below:
+<div align="center">
+<a href="https://t.me/P_R_0_1_bot/game">
+<img src="https://img.shields.io/badge/Play%20P.R.O.%20on%20Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white" alt="Play on Telegram" height="60">
+</a>
+</div>
+🧰 Technology
+This game is built with:
+TypeScript for type-safe code
+HTML5 Canvas for rendering
+Custom game engine with physics and collision detection
+Responsive design for all device sizes
+---
+<div align="center">
+<p>Made with ❤️ for runners and gamers alike</p>
+</div>
